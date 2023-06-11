@@ -7,6 +7,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './Screens/Login';
 import Home from './Screens/Home';
 
+
+// git push -f origin main
+// npx yarn add expo
+
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
