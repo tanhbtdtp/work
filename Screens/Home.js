@@ -44,7 +44,7 @@ const Tab = createBottomTabNavigator();
 export default function Home() {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ route }) => ({       
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
@@ -61,14 +61,26 @@ export default function Home() {
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "tomato",
-        tabBarInactiveTintColor: "gray",
-        headerShown: false,
+            tabBarActiveTintColor: "tomato",
+            tabBarInactiveTintColor: "gray",
+            headerShown: false,
       })}
     >
-      <Tab.Screen name="HomeScreen" component={HomeScreen} />
-      <Tab.Screen name="BillScreen" component={BillScreen} />
-      <Tab.Screen name="InfoScreen" component={InfoScreen} />
+      <Tab.Screen name="HomeScreen" component={HomeScreen} 
+               options={{tabBarLabel:"Trang chủ",
+               title: "Trang chủ",
+               headerShown: false}}
+              />
+      <Tab.Screen name="BillScreen" component={BillScreen} 
+              options={{tabBarLabel:"Thu cước",
+              title: "Thu cước",
+              headerShown: false}}
+             />      
+      <Tab.Screen name="InfoScreen" component={InfoScreen} 
+              options={{tabBarLabel:"Cá nhân",
+              title: "Cá nhân",
+              headerShown: false}}
+            />
     </Tab.Navigator>
   );
 }

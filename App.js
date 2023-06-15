@@ -11,6 +11,10 @@ import Home from './Screens/Home';
 // git push -f origin main
 // npx yarn add expo
 
+// thư viện
+// npx expo install expo-print
+// npx expo install expo-sharing
+
 
 const Stack = createNativeStackNavigator();
 
