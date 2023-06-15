@@ -1,37 +1,33 @@
-import { React,useState } from "react";
+import { React,useState,useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TouchableOpacity,SafeAreaView,TextInput,FlatList,Button } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import Icon from "react-native-vector-icons/Ionicons";
 
 
-
-export default BillScreens = () => {
+export default BillScreens = () => {        
+    const [ListData,setListData] = useState([]);
     
-    const navigation = useNavigation();
-        
-    const items = [
-      { 
-         id: '0000521', 
-         hoten: 'Huỳnh Bùi Thanh Tân',
-         diachi: '54A Lý Thường Kiệt, phường 1 TP.Cao lãnh Đồng Tháp',
-         tongtien: '322000',         
-         tinhtrang: 1,         
-      },      
-      { 
-        id: '0000522', 
-        hoten: 'Nguyễn Văn Tiến',
-        diachi: '54A Lý Thường Kiệt, phường 1 TP.Cao lãnh Đồng Tháp',
-        tongtien: '150000',
-        tinhtrang: 0
-     },            
-    ]
+    useEffect(() => {      
+      getItems();
+    },[]);
 
+    // lay danh sach
+    const getItems = () => {
+      axios
+          .get("https://api.mockfly.dev/mocks/c171e632-6050-4a92-8c67-e25fe2c004fd/list")
+          .then((response) => {
+              setListData(response.data);
+          });
+          console.log(ListData);
+    };    
 
+    
 // item cho danh sách
 const Items = ({data}) =>{
 
@@ -60,33 +56,8 @@ const [selectedPrinter, setSelectedPrinter] = useState();
         html,
         printerUrl: selectedPrinter?.url, // iOS only
       });
-    };
-  
-    //const printToFile = async () => {
-      // On iOS/android prints the given html. On web prints the HTML from the current page.
-      //const { uri } = await Print.printToFileAsync({ html });
-      //console.log('File has been saved to:', uri);
-      //await shareAsync(uri, { UTI: '.pdf', mimeType: 'application/pdf' });
-    //};
-  
-    //const selectPrinter = async () => {
-     // const printer = await Print.selectPrinterAsync(); // iOS only
-      // setSelectedPrinter(printer);
-    //};     
-
-//<View style={styles.spacer} />
-  //    <Button title="Print to PDF file" onPress={printToFile} />
-    //  {Platform.OS === 'ios' && (
-      //  <>
-        //  <View style={styles.spacer} />
-          //<Button title="Select printer" onPress={selectPrinter} />
-          //<View style={styles.spacer} />
-          //{selectedPrinter ? (
-         //   <Text style={styles.printer}>{`Selected printer: ${selectedPrinter.name}`}</Text>
-         // ) : undefined}
-       // </>
-  //)}
-
+    };  
+   
 
 return(
       <View
@@ -120,10 +91,10 @@ return(
 
           <View style={{flexDirection:'row',alignItems:"center",justifyContent:'flex-end'}} >
             <TouchableOpacity>
-                  <Ionicons name="eye-outline" size={25} style={{marginTop:5}} />             
+                  <Ionicons name="eye-outline" size={30} style={{marginTop:5}} />             
             </TouchableOpacity>
             <TouchableOpacity onPress={print} >
-                  <Ionicons name="print" size={25}  color={'#239B56'} style={{marginLeft:10,marginTop:5}} />
+                  <Ionicons name="print" size={30}  color={'#239B56'} style={{marginLeft:15,marginTop:5}} />
             </TouchableOpacity>
           </View>
         </View>  
@@ -144,38 +115,26 @@ return(
 
         <FlatList
                 style={styles.list}
-                data={items}
+                data={ListData}
                 renderItem={({ item }) => <Items data={item} print={print} />}              
                 keyExtractor={(item) => item.id}
          />
         </View>        
       <View>        
-      <Text>Man hinh BILL</Text>
 
-      <TouchableOpacity
-        style={{ backgroundColor: "blue" }}
-        onPress={() => navigation.replace("Login")}
-      >
-        <Text style={{ color: "white" }}>Go to Login</Text>
-      </TouchableOpacity>
+      <Text>Man hinh BILL</Text>      
       </View>
 
-      <Button title="Print" onPress={print} />
-      
+      <Button title="Print" onPress={getItems} />     
 
     </SafeAreaView>
   );
 }
 
-
-
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#fff",
-      //alignItems: "center",
-      //justifyContent: "center",
-      //backgroundColor:'gray'
+      backgroundColor: "#fff",    
     },
     list :{
        flex: 1,           
