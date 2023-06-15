@@ -5,6 +5,10 @@ import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
+
+import BillScreen from "./Home/BillScreen.js";
+
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   return (
@@ -20,20 +24,6 @@ const HomeScreen = () => {
   );
 };
 
-const DetailScreen = () => {
-  const navigation = useNavigation();
-  return (
-    <View style={styles.container}>
-      <Text>Man hinh Detail</Text>
-      <TouchableOpacity
-        style={{ backgroundColor: "blue" }}
-        onPress={() => navigation.replace("Login")}
-      >
-        <Text style={{ color: "white" }}>Go to Login</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
 
 const InfoScreen = () => {
   const navigation = useNavigation();
@@ -60,7 +50,7 @@ export default function Home() {
 
           if (route.name === "HomeScreen") {
             iconName = focused ? "ios-home" : "ios-home-outline";
-          } else if (route.name === "DetailScreen") {
+          } else if (route.name === "BillScreen") {
             iconName = focused ? "ios-list" : "ios-list-outline";
           } else if (route.name === "InfoScreen") {
             iconName = focused
@@ -77,7 +67,7 @@ export default function Home() {
       })}
     >
       <Tab.Screen name="HomeScreen" component={HomeScreen} />
-      <Tab.Screen name="DetailScreen" component={DetailScreen} />
+      <Tab.Screen name="BillScreen" component={BillScreen} />
       <Tab.Screen name="InfoScreen" component={InfoScreen} />
     </Tab.Navigator>
   );
