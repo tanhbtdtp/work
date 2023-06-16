@@ -8,6 +8,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 import BillScreen from "./Home/BillScreen.js";
 import Loading from "../Components/Loading.js";
+import Personal from "./Personal/Personal.js";
+
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -76,7 +78,7 @@ export default function Home() {
               title: "Thu cước",              
               headerShown: false}}              
              />      
-      <Tab.Screen name="InfoScreen" component={Loading} 
+      <Tab.Screen name="InfoScreen" component={Personal} 
               options={{tabBarLabel:"Cá nhân",
               title: "Cá nhân",
               headerShown: false}}

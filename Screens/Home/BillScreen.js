@@ -14,7 +14,7 @@ import Loading from "../../Components/Loading";
 export default BillScreens = () => {        
   const [ListData,setListData] = useState([]);
   const [isLoading,setIsLoading] = useState(false);
-  
+
   // hàm xuất danh sách thu cước
   useEffect(() => {
     const fetchData = async () => {      
@@ -40,6 +40,7 @@ const Items = ({data}) =>{
 
 // cac ham xu ly in
 const [selectedPrinter, setSelectedPrinter] = useState();
+
     const html = `
           <html>
             <head>
@@ -56,7 +57,7 @@ const [selectedPrinter, setSelectedPrinter] = useState();
           </html>
           `;
 
-// in ấn
+// In ấn
 const print = async () => {
       // On iOS/android prints the given html. On web prints the HTML from the current page.
       await Print.printAsync({
@@ -65,7 +66,7 @@ const print = async () => {
       });
 };    
 
-return(
+return(  
       <View
           style={{
             flex:1,
@@ -75,7 +76,6 @@ return(
             marginVertical: 5,
             marginHorizontal: 5,
           }}>
-
           <View style={{flexDirection:'row'}} >
              <View style={{flex:1,flexDirection:'row'}} >
                 <Text style={{fontSize: 13,color:'#566573'}}>Mã TT</Text>
@@ -105,21 +105,22 @@ return(
             </TouchableOpacity>
           </View>
         </View>    
-  
-  )}
+    )}
 
 ////////// Phần body ///////////////////
   return (
-    <SafeAreaView style={styles.container}>      
+    <SafeAreaView style={styles.container}>    
+     <StatusBar backgroundColor="#2196F3"/>   
       {isLoading? <Loading/> :
       <>
-        <View style={{ flex:1, flexDirection:"row", backgroundColor:'#2196F3',justifyContent:'center',alignItems:'center'}}>
+        <View style={{ flex:1, flexDirection:"row", backgroundColor:'#2196F3',justifyContent:'center',alignItems:'center',marginTop:20}}>
                 <TextInput style={{backgroundColor:'#ffff',width:'95%',height:50,fontSize:15,padding:10,
                         borderRadius:10}} placeholder="Tìm kiếm..."></TextInput>
                 <TouchableOpacity style={{marginLeft:5,position:'absolute',right:30}}>
                      <Ionicons name='search' size={30} color={'#566573'} />
                 </TouchableOpacity>
-        </View>        
+        </View> 
+
         <View style={{padding:10,marginLeft:10,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}} >
               <Text style={{fontWeight:600}}>Khách hàng</Text>      
               <View style={{flexDirection:'row',paddingHorizontal:10}}>
@@ -140,9 +141,7 @@ return(
          />         
         </View>   
         </>}
-
     </SafeAreaView>
-
   );
 }
 
