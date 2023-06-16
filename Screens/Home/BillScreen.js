@@ -4,32 +4,39 @@ import { StyleSheet, Text, View, TouchableOpacity,SafeAreaView,TextInput,FlatLis
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
-import Icon from "react-native-vector-icons/Ionicons";
+import API from "../../Services/ThuVien";
+
 
 
 export default BillScreens = () => {        
-    const [ListData,setListData] = useState([]);
+  const [ListData,setListData] = useState([]);
+  const [isLoading,setIsLoading] = useState(false);
     
-    useEffect(() => {      
-      getItems();
-    },[]);
+  useEffect(() => {
+    const fetchData = async () => {      
+      try {
+        setIsLoading(true);        
+        const list = await axios.get(API.List_ThuCuoc);    
+        setListData(list.data);                        
+      } catch (error) {
+        // Handle errors
+        console.log(error);
+      }finally {
+        setIsLoading(false);
+      }      
+  }
+  // call the function
+   fetchData();    
+  },[])
+  
 
-    // lay danh sach
-    const getItems = () => {
-      axios
-          .get("https://api.mockfly.dev/mocks/c171e632-6050-4a92-8c67-e25fe2c004fd/list")
-          .then((response) => {
-              setListData(response.data);
-          });
-          console.log(ListData);
-    };    
 
     
 // item cho danh sách
 const Items = ({data}) =>{
+
 
 // cac ham xu ly in
 const [selectedPrinter, setSelectedPrinter] = useState();
@@ -47,17 +54,16 @@ const [selectedPrinter, setSelectedPrinter] = useState();
                 style="width: 90vw;" />
             </body>
           </html>
-    `;
-    
-    // in ấn
-    const print = async () => {
+          `;
+
+// in ấn
+const print = async () => {
       // On iOS/android prints the given html. On web prints the HTML from the current page.
       await Print.printAsync({
         html,
         printerUrl: selectedPrinter?.url, // iOS only
       });
-    };  
-   
+};    
 
 return(
       <View
@@ -65,27 +71,28 @@ return(
             flex:1,
             backgroundColor: '#eeeeee',
             borderRadius: 10,
-            padding: 20,
+            padding: 10,
             marginVertical: 5,
             marginHorizontal: 5,
           }}>
 
           <View style={{flexDirection:'row'}} >
-             <Text style={{fontSize: 13}}>MTT</Text>
-             <Text style={{fontSize: 13,marginLeft:5,fontWeight:700,color:'#2196F3'}}>{data.id}</Text>          
+             <View style={{flex:1,flexDirection:'row'}} >
+                <Text style={{fontSize: 13,color:'#566573'}}>Mã TT</Text>
+                <Text style={{fontSize: 13,marginLeft:5,fontWeight:700,color:'#2196F3'}}>{data.id}</Text>          
+             </View>
+             <View>             
+                  <Text style={{fontSize: 15,color:'#EB984E',marginLeft:50,fontWeight:500}}>{data.tongtien} đ</Text>          
+             </View>
           </View>
-          <Text style={{fontSize: 15,fontWeight:600}}>{data.hoten}</Text>
-          <Text style={{fontSize: 12}}>{data.diachi}</Text>
 
-          <View style={{flexDirection:'row',alignItems:"center"}} >
-             <Text style={{fontSize: 13,color:'#566573'}}>Tổng tiền</Text>
-             <Text style={{fontSize: 13,color:'#EB984E',marginLeft:13,fontWeight:700}}>{data.tongtien}</Text>          
-          </View>
+          <Text style={{fontSize: 15,fontWeight:600}}>{data.hoten}</Text>
+          <Text style={{fontSize: 12}}>{data.diachi}</Text>          
 
           <View style={{flexDirection:'row',alignItems:"center"}} >
              <Text style={{fontSize: 13,color:'#566573'}}>Tình trạng</Text>
-             <Text style={{fontSize: 13,color:'#EB984E',marginLeft:10,fontWeight:700}}>
-                  {data.tinhtrang? <Text style={{color:'#239B56'}}>Đã thanh toán</Text> :<Text style={{color:'#EB984E'}}>Chưa thanh toán</Text>}
+             <Text style={{fontSize: 13,marginLeft:10,fontWeight:600}}>             
+                  {data.tinhtrang? <Text style={{color:'#239B56'}}>Đã thanh toán</Text> :<Text style={{color:'#CD5C5C'}}>Chưa thanh toán</Text>}
                   </Text>          
           </View>
 
@@ -97,37 +104,41 @@ return(
                   <Ionicons name="print" size={30}  color={'#239B56'} style={{marginLeft:15,marginTop:5}} />
             </TouchableOpacity>
           </View>
-        </View>  
+        </View>    
+  
   )}
 
-
+// Phần body 
   return (
     <SafeAreaView style={styles.container}>      
         <View style={{ flex:1, flexDirection:"row", backgroundColor:'#2196F3',justifyContent:'center',alignItems:'center'}}>
-
-                <TextInput style={{backgroundColor:'#ffff',width:'85%',height:50,fontSize:15,padding:10,
+                <TextInput style={{backgroundColor:'#ffff',width:'95%',height:50,fontSize:15,padding:10,
                         borderRadius:10}} placeholder="Tìm kiếm..."></TextInput>
-                <TouchableOpacity style={{marginLeft:5}}>
-                     <Ionicons name='search' size={30} color={'white'} />
+                <TouchableOpacity style={{marginLeft:5,position:'absolute',right:30}}>
+                     <Ionicons name='search' size={30} color={'#566573'} />
                 </TouchableOpacity>
         </View>                
+        <View style={{padding:10,marginLeft:10,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}} >
+              <Text style={{fontWeight:600}}>Khách hàng</Text>      
+              <View style={{flexDirection:'row',paddingHorizontal:10}}>
+                     <TouchableOpacity style={{backgroundColor:'#2196F3',borderRadius:5,width:80,alignItems:'center'}} >
+                        <Text style={{fontWeight:400,color:'#ffff',padding:5}}>Đã thu</Text>      
+                     </TouchableOpacity>
+                     <TouchableOpacity style={{backgroundColor:'#2196F3',marginLeft:10,borderRadius:5,width:80,alignItems:'center'}}>
+                        <Text style={{fontWeight:400,color:'#ffff',padding:5}}>Chưa thu</Text>      
+                    </TouchableOpacity>
+              </View>
+        </View>
         <View style={{ flex:6,backgroundColor:'#fff',width:'95%',alignSelf:"center",marginTop:10}}>  
-
         <FlatList
                 style={styles.list}
                 data={ListData}
                 renderItem={({ item }) => <Items data={item} print={print} />}              
                 keyExtractor={(item) => item.id}
-         />
-        </View>        
-      <View>        
-
-      <Text>Man hinh BILL</Text>      
-      </View>
-
-      <Button title="Print" onPress={getItems} />     
-
+         />         
+        </View>   
     </SafeAreaView>
+
   );
 }
 
