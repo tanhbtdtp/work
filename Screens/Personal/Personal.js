@@ -77,7 +77,7 @@ footer :{
 },
 panel :{
     width:'95%',
-    height :180,
+    height :190,
     backgroundColor:'#FBFCFC',   
     position:'absolute',    
     top: 150,
