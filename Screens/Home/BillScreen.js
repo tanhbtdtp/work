@@ -8,12 +8,14 @@ import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import API from "../../Services/ThuVien";
 
+import Loading from "../../Components/Loading";
 
 
 export default BillScreens = () => {        
   const [ListData,setListData] = useState([]);
   const [isLoading,setIsLoading] = useState(false);
-    
+  
+  // hàm xuất danh sách thu cước
   useEffect(() => {
     const fetchData = async () => {      
       try {
@@ -31,8 +33,6 @@ export default BillScreens = () => {
    fetchData();    
   },[])
   
-
-
     
 // item cho danh sách
 const Items = ({data}) =>{
@@ -108,16 +108,18 @@ return(
   
   )}
 
-// Phần body 
+////////// Phần body ///////////////////
   return (
     <SafeAreaView style={styles.container}>      
+      {isLoading? <Loading/> :
+      <>
         <View style={{ flex:1, flexDirection:"row", backgroundColor:'#2196F3',justifyContent:'center',alignItems:'center'}}>
                 <TextInput style={{backgroundColor:'#ffff',width:'95%',height:50,fontSize:15,padding:10,
                         borderRadius:10}} placeholder="Tìm kiếm..."></TextInput>
                 <TouchableOpacity style={{marginLeft:5,position:'absolute',right:30}}>
                      <Ionicons name='search' size={30} color={'#566573'} />
                 </TouchableOpacity>
-        </View>                
+        </View>        
         <View style={{padding:10,marginLeft:10,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}} >
               <Text style={{fontWeight:600}}>Khách hàng</Text>      
               <View style={{flexDirection:'row',paddingHorizontal:10}}>
@@ -137,6 +139,8 @@ return(
                 keyExtractor={(item) => item.id}
          />         
         </View>   
+        </>}
+
     </SafeAreaView>
 
   );

@@ -7,7 +7,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 
 import BillScreen from "./Home/BillScreen.js";
-
+import Loading from "../Components/Loading.js";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -62,7 +62,7 @@ export default function Home() {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
             tabBarActiveTintColor: "tomato",
-            tabBarInactiveTintColor: "gray",
+            tabBarInactiveTintColor: "gray",            
             headerShown: false,
       })}
     >
@@ -73,10 +73,10 @@ export default function Home() {
               />
       <Tab.Screen name="BillScreen" component={BillScreen} 
               options={{tabBarLabel:"Thu cước",
-              title: "Thu cước",
-              headerShown: false}}
+              title: "Thu cước",              
+              headerShown: false}}              
              />      
-      <Tab.Screen name="InfoScreen" component={InfoScreen} 
+      <Tab.Screen name="InfoScreen" component={Loading} 
               options={{tabBarLabel:"Cá nhân",
               title: "Cá nhân",
               headerShown: false}}
