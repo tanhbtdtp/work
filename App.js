@@ -14,7 +14,7 @@ import Home from './Screens/Home';
 // thư viện
 // npx expo install expo-print
 // npx expo install expo-sharing
-
+// npx yarn add axios
 
 const Stack = createNativeStackNavigator();
 
