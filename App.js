@@ -16,6 +16,10 @@ import HomeStack from './Screens/HomeStack';
 // npx expo install expo-sharing
 // npx yarn add axios
 
+// npx yarn add @shopify/flash-list@1.4.0
+// npx expo install @react-native-async-storage/async-storage
+
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
