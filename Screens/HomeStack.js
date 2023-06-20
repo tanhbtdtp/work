@@ -1,49 +1,16 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { StyleSheet} from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 
 import BillScreen from "./Home/BillScreen.js";
-import Loading from "../Components/Loading.js";
-import Personal from "./Personal/Personal.js";
-
-
-const HomeScreen = () => {
-  const navigation = useNavigation();
-  return (
-    <View style={styles.container}>
-      <Text>Man hinh Home</Text>
-      <TouchableOpacity
-        style={{ backgroundColor: "blue" }}
-        onPress={() => navigation.replace("Login")}
-      >
-        <Text style={{ color: "white" }}>Go to Login</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-
-const InfoScreen = () => {
-  const navigation = useNavigation();
-  return (
-    <View style={styles.container}>
-      <Text>Man hinh Info</Text>
-      <TouchableOpacity
-        style={{ backgroundColor: "blue" }}
-        onPress={() => navigation.replace("Login")}
-      >
-        <Text style={{ color: "white" }}>Go to Login</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
+import Personal from "./Home/Personal.js";
+import HomeScreen from "./Home/HomeScreen.js";
 
 const Tab = createBottomTabNavigator();
-export default function Home() {
+export default function HomeStack() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({       

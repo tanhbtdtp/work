@@ -1,7 +1,8 @@
 
 const API =
       {
-            "List_ThuCuoc" : "https://script.google.com/macros/s/AKfycbxRRbQHHCqQEF2MMWrR_o9JKeromKaOmhd3rHSkIdnPXMbYL_J5L7bEL38g1yUMPk3Z/exec?action=getBillings",
+            "List_ThuCuoc" : 'https://vnptdongthap.vn/vnpapi/api/hoadon',
+            "API_Login" : 'https://vnptdongthap.vn/vnpapi/api/User/login'
       }
  
 export default API;

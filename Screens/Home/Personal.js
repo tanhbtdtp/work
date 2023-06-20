@@ -1,21 +1,38 @@
-import React from "react";
-import { View,Text, StyleSheet,Image } from "react-native";
+import React, { useEffect ,useState} from "react";
+import { View,Text, StyleSheet,Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { StatusBar } from "expo-status-bar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default Personal =() =>{
+export default Personal = () =>{
+const [manv,setManv] =useState();    
+const [hoten,setHoten] =useState();    
+const [avatar,setAvatar] =useState();    
 
-    const item = {
-          id: 'VNP001233',
-          tennv: 'Huỳnh Bùi Thanh Tân',
+const item = {
+          id: manv,
+          tennv: hoten,
           loainv: 'Nhân viên kinh doanh',
           donvi: 'PBH TP Cao Lãnh',
-          avatar : 'https://vnptdongthap.vn/tainguyen/images/thanhtan.jpg'
-    }
+          avatar : avatar
+ }
+
+useEffect(()=>{
+        // Lấy thông tin người dùng
+        AsyncStorage.getItem("manvID").then(value=>{
+            setManv(value);
+        });
+        AsyncStorage.getItem("tennvID").then(value=>{
+            setHoten(value);
+        });
+        AsyncStorage.getItem("imagenvID").then(value=>{
+            setAvatar(value);
+        });
+},[])
+
 
 return(
-
     <SafeAreaView style={styles.container}>   
       <StatusBar backgroundColor="#2196F3"/>   
       <View style={styles.header}>
@@ -23,17 +40,26 @@ return(
       </View>
       <View style={styles.footer}></View>
       <View style={styles.panel}>
-
       <Image
         style={styles.logo}
         source={{
           uri: item.avatar,
         }}
       />          
-      <View>
+      <View style={{flexDirection:'row',justifyContent:'space-between'}} >
+            <View>
             <Text style={{fontSize:15,marginLeft:15,marginTop:15,fontWeight:500}}>{item.tennv}</Text>         
             <Text style={{fontSize:13,marginLeft:15,marginTop:5}}>{item.id}</Text>         
             <Text style={{fontSize:13,marginLeft:15,marginTop:5,color:'#566573'}}>{item.loainv}</Text>         
+            </View>
+            
+                <View style={{justifyContent:"center", marginRight:20}}>
+                <TouchableOpacity>
+                    <Ionicons name="exit" size={50} color={'#2196F3'} style={{opacity:0.8}} /> 
+                </TouchableOpacity>
+                <Text style={{fontSize:13,fontWeight:400}}>Thoát</Text>
+                </View>
+            
       </View>
        <View style={{backgroundColor:'gray',width:'100%',height:0.4,alignSelf:"center",marginTop:18}}></View> 
        <View style={{flex:1,flexDirection:'row'}}>
@@ -88,4 +114,5 @@ panel :{
 }
 
 })
+
 
