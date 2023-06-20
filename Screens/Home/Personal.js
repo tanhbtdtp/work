@@ -4,11 +4,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 export default Personal = () =>{
 const [manv,setManv] =useState();    
 const [hoten,setHoten] =useState();    
 const [avatar,setAvatar] =useState();    
+const navigation = useNavigation();
+
 
 const item = {
           id: manv,
@@ -54,7 +57,7 @@ return(
             </View>
             
                 <View style={{justifyContent:"center", marginRight:20}}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.replace("Login")}>                    
                     <Ionicons name="exit" size={50} color={'#2196F3'} style={{opacity:0.8}} /> 
                 </TouchableOpacity>
                 <Text style={{fontSize:13,fontWeight:400}}>Thoát</Text>
@@ -76,8 +79,7 @@ return(
                     <Text style={{marginLeft:5}}>facebook</Text>
                 </View>
         </View>
-      </View>
-      
+      </View>      
     </SafeAreaView>    
 )}
 

@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, TextInput, TouchableOpacity,StyleSheet, Text, View,Image, Alert } from "react-native";
+import { SafeAreaView, TextInput, TouchableOpacity,StyleSheet, Text, View,Image, Alert} from "react-native";
+import Checkbox from "expo-checkbox";
 import { useNavigation } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
@@ -16,26 +17,23 @@ const Header = () => {
   );
 };
 
-
-
 const Body = () => {
   const navigation = useNavigation();
   const [username,setUsername] =useState("");
   const [password,setPassword] =useState("");
   const [token,setToken] =useState("");
   const [isLoading,setIsLoading] =useState(false);
+  const [isChecked, setChecked] = useState(false);
 
   const urlLogin =API.API_Login + `?taikhoan=${username}&matkhau=${password}&token=${token}`
 
   const onChangeUsername = value =>{    
       setUsername(value);
-      //console.log(username)
-  }
-  const onChangePassword = value =>{
-      setPassword(value);
-      //console.log(password)
   }
 
+  const onChangePassword = value =>{
+      setPassword(value);  
+  }
 
   const onClickLogin = async () =>{
      if (username=="" || password=="" || username==null || password==null )      
@@ -45,20 +43,21 @@ const Body = () => {
         try {
           setIsLoading(true);        
           const res = await axios.get(urlLogin);                      
-          //console.log(res.data)
 
             if(res.data[0].tinhtrang==0)  {
               Alert.alert("Sai thông tin đăng nhập.");
             }
             else{
             // đăng nhập thành công
-            AsyncStorage.setItem('manvID',res.data[0].manv);
-            AsyncStorage.setItem('tennvID',res.data[0].hoten);            
-            AsyncStorage.setItem('sdtnvID',res.data[0].sdt);            
-            AsyncStorage.setItem('imagenvID',res.data[0].image);            
-            AsyncStorage.setItem('tokenID',res.data[0].token);
-            //chuyển màn hình sang HoneStack
+              AsyncStorage.setItem('manvID',res.data[0].manv);
+              AsyncStorage.setItem('tennvID',res.data[0].hoten);            
+              AsyncStorage.setItem('sdtnvID',res.data[0].sdt);            
+              AsyncStorage.setItem('imagenvID',res.data[0].image);            
+              AsyncStorage.setItem('tokenID',res.data[0].token);
+
+            //Chuyển màn hình sang HoneStack
             navigation.replace("HomeStack")             
+
             }            
 
         } catch (error) {
@@ -69,6 +68,7 @@ const Body = () => {
         }
       }
   } 
+
 
   return (
     <View style={styles.bd}>      
@@ -97,23 +97,33 @@ const Body = () => {
           secureTextEntry={true}
           />
         </View>
-
-        <View style={{borderWidth:0.5,borderColor:"gray"}}></View>
-
+            <View style={{borderWidth:0.5,borderColor:"gray"}}></View>
         <View>
-        <TouchableOpacity>
-             <Text style={{fontWeight:500,color:'#2196F3',marginTop:10}} >Quên mật khẩu?</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity        
-           onPress={onClickLogin}>
-          <View style={{backgroundColor:'#2196F3', height:60,marginTop:40,justifyContent:"center",borderRadius:10,opacity:0.9}}>
-            <Text style={{ color: "white",textAlign:"center",fontSize:18}}>Đăng nhập</Text>
-          </View>
-        </TouchableOpacity>
+            <View style={{flexDirection:'row',justifyContent:'space-between'}}>  
+                 <View style={{flexDirection:'row',marginTop:10}}>
+                 <Checkbox                
+                  value={isChecked}
+                  onValueChange={setChecked}
+                  color={isChecked ? '#2196F3' : undefined}
+                />
+                <Text style={{fontSize:14,marginLeft:5,fontWeight:500,color:'#2196F3',opacity:0.7}}>Ghi nhớ</Text>
+                </View> 
+                <TouchableOpacity>
+                    <Text style={{fontWeight:500,color:'#2196F3',marginTop:10,opacity:0.7}}>Quên mật khẩu?</Text>
+                </TouchableOpacity>
+            </View>
 
+            <View>            
+                <TouchableOpacity        
+                  onPress={onClickLogin}>
+                  <View style={{backgroundColor:'#2196F3', height:60,marginTop:40,justifyContent:"center",borderRadius:10,opacity:0.8}}>
+                    <Text style={{ color: "white",textAlign:"center",fontSize:18}}>Đăng nhập</Text>
+                  </View>
+                </TouchableOpacity>                
+            </View>
+        </View> 
 
-      </View> 
       </View>
     </View>
   );
@@ -126,19 +136,19 @@ const Footer = () => {
       <Image
         style={styles.logo}
         source={{
-          uri: 'https://capquangvnpt.net/wp-content/uploads/2020/12/vnpt-pay-icon.png',
+          uri: API.Logo_1
         }}
       />
       <Image
         style={styles.logo}
         source={{
-          uri: "https://play-lh.googleusercontent.com/z9RBLt67PfZBhzfPdwKw1dl_wawTkRpyfx5kn8pMMVAk7zsS_SQQlyRGR9YnjGVjDBRU",
+          uri: API.Logo_2
         }}
       />
-          <Image
+        <Image
         style={styles.logo}
         source={{
-          uri: 'https://vinaphonetphcm.com/files/tin/731/png/5g-vinaphone.png',
+          uri: API.Logo_3
         }}
       />
       </View>
@@ -161,9 +171,7 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",    
-    //alignItems: "center",
-    //justifyContent: "center",         
+    backgroundColor: "#fff",      
     paddingHorizontal:10
   },
 
@@ -181,8 +189,7 @@ const styles = StyleSheet.create({
   },
 
   bd: {
-    flex: 3,
-    
+    flex: 3,    
   },    
 
   bd_tendangnhap: {
