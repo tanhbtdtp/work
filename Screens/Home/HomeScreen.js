@@ -60,16 +60,17 @@ const Body = () => {
             </View>            
             <View style={styles.forminfo}>
               <View style={styles.info}>                  
-                  <Text>Fiber</Text>
-                  <Text>1234</Text>
+                  <Text style={styles.txtinfo} >30.2</Text>
+                  <Text style={styles.txtinfotext}>Fiber</Text>
               </View>
               <View style={styles.info}>              
-                  <Text>MyTV</Text>
-                  <Text>1234</Text>
+                  <Text style={styles.txtinfo}>20.5</Text>
+                  <Text style={styles.txtinfotext}>MyTV</Text>
+                  
               </View>
               <View style={styles.info}>              
-              <Text>Di động</Text>
-              <Text>1234</Text>
+              <Text style={styles.txtinfo}>3.32</Text>
+              <Text style={styles.txtinfotext}>Di động</Text>              
               </View>
             </View>
       </View>      
@@ -113,6 +114,18 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:"center",
     alignItems:'center',        
+    borderLeftWidth :1,
+    borderColor:'#BDC3C7'
+  },
+
+  txtinfo :{
+    fontSize:30,
+    fontWeight: 500,
+    marginBottom :5
+  },
+  txtinfotext :{
+    fontWeight:400,
+    color:'gray'
   },
   
 });
