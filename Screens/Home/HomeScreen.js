@@ -5,6 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import API from "../../Services/ThuVien";
+import ItemUserView from "../../Components/ItemUserView";
 
 export default HomeScreen = () => {
     const [avatar,setAvatar] =useState();    
@@ -36,28 +38,49 @@ const Header = () => {
     </View>
   )}
 
-  const Body = () => {
+  const Userview = () =>{
+    return(
+          <View style={{flex:1,padding:5}} >
+              <ItemUserView/>
+          </View>
+    )}
+
+const Body = () => {
+
     return(
       <View style={{flex:4,backgroundColor:'#fff',paddingHorizontal:5}}>          
            <View>
           <Image
               style={{borderRadius:5,height:200, borderWidth:1,borderColor:'#fff',marginTop:5}}
               source={{
-                  uri: 'https://vnptdongthap.vn/tainguyen/images/ToaNha_TTKD.jpg',              
+                  uri: API.Logo_TTKD,              
               }}
               resizeMode="contain"
             />
-            </View>
-            <View>
-              <Text>Danh mục</Text>
+            </View>            
+            <View style={styles.forminfo}>
+              <View style={styles.info}>                  
+                  <Text>Fiber</Text>
+                  <Text>1234</Text>
+              </View>
+              <View style={styles.info}>              
+                  <Text>MyTV</Text>
+                  <Text>1234</Text>
+              </View>
+              <View style={styles.info}>              
+              <Text>Di động</Text>
+              <Text>1234</Text>
+              </View>
             </View>
       </View>      
-    )};
-    
+    )};    
+
+
 
   return (
     <SafeAreaView style={styles.container}>
        <Header/>
+       <Userview/>
        <Body/>
     </SafeAreaView>
   );
@@ -78,5 +101,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'skyblue',
   },
 
+  forminfo :{
+    flexDirection:'row',justifyContent:'space-between',
+    marginTop:10,
+    height:100,
+    borderRadius:5,
+    backgroundColor:'#E5E7E9'
+  },
+
+  info :{
+    flex:1,
+    justifyContent:"center",
+    alignItems:'center',        
+  },
+  
 });
 

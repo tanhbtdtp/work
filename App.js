@@ -18,6 +18,8 @@ import HomeStack from './Screens/HomeStack';
 
 // npx yarn add @shopify/flash-list@1.4.0
 // npx expo install @react-native-async-storage/async-storage
+// npx yarn add expo-checkbox
+// npx yarn add react-native-anchor-carousel
 
 
 const Stack = createNativeStackNavigator();
