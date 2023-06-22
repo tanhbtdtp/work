@@ -1,22 +1,32 @@
-
 import {React,useState,useEffect} from "react";
-import {Text, View, TouchableOpacity} from "react-native";
+import {Text, View, TouchableOpacity,ActivityIndicator} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as Print from 'expo-print';
 
+
 export default ItemHoaDon = ({data})=>{
     const [selectedPrinter, setSelectedPrinter] = useState();   
+    const [isLoading,setIsLoading] = useState(false)
    
 // In ấn
 const print = async () => {      
     // On iOS/android prints the given html. On web prints the HTML from the current page.
+    setIsLoading(true);    
     await Print.printAsync({
       html,
       printerUrl: selectedPrinter?.url, // iOS only
     });
+    setIsLoading(false);    
 };
 
-
+const Loading = ()=>{
+    return(
+        <View style={{flexDirection:"row",alignItems:"center",opacity:0.8}}>
+               <ActivityIndicator size={40}  color={'red'}/>
+               <Text style={{ fontSize:15,marginLeft:5,fontWeight:400}}>Đang tải</Text>
+        </View>
+    )
+}
 
 // Template hoá đơn
 const html = `
@@ -298,8 +308,8 @@ const html = `
                 <br />
                 <section>
                     <p style="text-align:center">
-                        <span style="font-size:11pt">${data.ghi_chu}</span><br />
-                        <span style="font-size:11pt">Số liên hệ quí khách hàng là : <b>${data.sdt_lh}</b></span><br />
+                        <span style="font-size:10pt">${data.ghi_chu}</span><br />
+                        <span style="font-size:10pt">Số liên hệ quí khách hàng là : <b>${data.sdt_lh}</b></span><br />
                     </p>
                     <br />
                     <header>
@@ -308,12 +318,12 @@ const html = `
                     </header>
 
                     <br />
-                    <p style="text-align:center;font-size:12pt">
+                    <p style="text-align:center;font-size:10pt">
                         TỔNG ĐÀI CHĂM SÓC KHÁCH HÀNG
                     </p>
                 </section>
                 <footer style="text-align:center">
-                    <p><span style="font-size:25pt;font-weight:bold">18001166</span></p>
+                    <p><span style="font-size:20pt;font-weight:bold">18001166</span></p>
                     <p> <i>Báo hỏng: Vui lòng nhấn phím 1, gặp điện thoại viên: Vui lòng nhấn phím 2 </i></p>
                 </footer>
                 <br />
@@ -328,7 +338,7 @@ const html = `
 `;
 
     return(
-    <View>
+    <View>        
           <View
           style={{
             flex:1,
@@ -337,6 +347,7 @@ const html = `
             padding: 10,
             marginVertical: 5,
             marginHorizontal: 5,
+            opacity:0.8
           }}>
             
           <View style={{flexDirection:'row'}} >
@@ -345,7 +356,8 @@ const html = `
                 <Text style={{fontSize: 15,marginLeft:5,fontWeight:700,color:'#2196F3'}}>{data.matt}</Text>          
              </View>
              <View>             
-                  <Text style={{fontSize: 15,color:'#EB984E',marginLeft:50,fontWeight:500}}>{data.tien_cl} đ</Text>          
+                  <Text style={{fontSize: 17,color:'#EB984E',marginLeft:50,fontWeight:500}}>{data.tien_cl} đ</Text>          
+                  
              </View>
           </View>
 
@@ -363,13 +375,18 @@ const html = `
                   {data.tinh_trang? <Text style={{color:'#239B56'}}>Đã thanh toán</Text> :<Text style={{color:'#CD5C5C'}}>Chưa thanh toán</Text>}
                   </Text>          
           </View>
-          <View style={{flexDirection:'row',alignItems:"center",justifyContent:'flex-end'}} >
-            <TouchableOpacity>
-                  <Ionicons name="eye-outline" size={30} style={{marginTop:5}} />             
-            </TouchableOpacity>
-            <TouchableOpacity onPress={print}>
-                  <Ionicons name="print" size={40}  color={'#239B56'} style={{marginLeft:15,marginTop:5}} />
-            </TouchableOpacity>
+          <View style={{flexDirection:'row',alignItems:"center",justifyContent:'space-between'}} >
+            <View style={{alignItems:'center'}} >
+                    {isLoading? <Loading/> :null}
+            </View>
+            <View style={{flexDirection:"row",alignItems:'center'}} >
+                    <TouchableOpacity>
+                        <Ionicons name="eye" size={40} style={{marginTop:5,opacity:0.3}} />             
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={print}>
+                        <Ionicons name="print" size={40}  color={'#239B56'} style={{marginLeft:15,marginTop:5,opacity:0.8}} />
+                    </TouchableOpacity>
+            </View>
           </View>
         </View>    
     </View>
