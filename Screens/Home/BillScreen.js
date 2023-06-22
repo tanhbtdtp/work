@@ -10,14 +10,14 @@ import ItemHoaDon from "../../Components/ItemHoaDon";
 
 
 
-
 export default BillScreens = () => {        
   const [ListData,setListData] = useState([]);
   const [isLoading,setIsLoading] = useState(false);  
   const [currentPage,setCurrentPage] =useState(1);
     
   // API
-  const urlThuCuoc =API.List_ThuCuoc + "?ma_nv=&sotrang=" + `${currentPage}`;
+  const urlThuCuoc =API.List_ThuCuoc + "?ma_nv=&sotrang=" + `${currentPage}` + "&somautin=";
+  //console.log(urlThuCuoc);
     
   // hàm xuất danh sách thu cước
   useEffect(() => {
@@ -25,7 +25,8 @@ export default BillScreens = () => {
       try {
         setIsLoading(true);        
         const res = await axios.get(urlThuCuoc);            
-        setListData([...ListData,...res.data]); 
+        setListData([...ListData,...res.data]);        
+        //console.log(ListData);
         //setListData(res.data); 
       } catch (error) {
         // Handle errors

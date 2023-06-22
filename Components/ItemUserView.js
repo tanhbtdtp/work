@@ -54,14 +54,12 @@ const images =[
         title: 'Lorem ipsum ',
         content: 'Neque porro quisquam est qui dolorem ipsum quia dolor ',
       },
-
-
-
 ]
 
 
-export default NumberCarousel =() => {
 
+export default NumberCarousel =() => {
+    
     const renderItem = ({ item, index }) => {        
         return (
           <TouchableOpacity

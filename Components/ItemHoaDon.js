@@ -1,11 +1,12 @@
 
-import {React,useState} from "react";
+import {React,useState,useEffect} from "react";
 import {Text, View, TouchableOpacity} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as Print from 'expo-print';
 
 export default ItemHoaDon = ({data})=>{
-    const [selectedPrinter, setSelectedPrinter] = useState();
+    const [selectedPrinter, setSelectedPrinter] = useState();   
+   
 // In ấn
 const print = async () => {      
     // On iOS/android prints the given html. On web prints the HTML from the current page.
@@ -14,6 +15,8 @@ const print = async () => {
       printerUrl: selectedPrinter?.url, // iOS only
     });
 };
+
+
 
 // Template hoá đơn
 const html = `
@@ -171,7 +174,7 @@ const html = `
         <header>
                     <p>
                         <b>TTKD VNPT - ĐỒNG THÁP</b><br>
-                        <b>TENDONVI</b>
+                        <b>${data.donvi}</b>
                     </p>
                 </header>
                 <table class="bill-details">
@@ -180,7 +183,7 @@ const html = `
                             <th class="center-align" colspan="2"><span class="receipt"><b>GIẤY BÁO CƯỚC</b></span></th>
                         </tr>
                         <tr>
-                            <th class="center-align" colspan="2"><span style="font-size:10pt">TUNGAY_DENNGAY</span></th>
+                            <th class="center-align" colspan="2"><span style="font-size:10pt">${data.ngay}</span></th>
                         </tr>
                     </tbody>
                 </table>
@@ -192,7 +195,7 @@ const html = `
                                 Kính gửi Quý khách <br />
                                 <span style="font-size:11pt">${data.ten_kh}</span> <br />
                                 <span style="font-size:11pt;">${data.diachi_kh}</i></span><br />
-                                <span style="font-size:11pt;">Mã KH/SĐT: </span><span style="font-size:11pt"><b> SODIENTHOAI </b></span> <br />
+                                <span style="font-size:11pt;">Mã KH/SĐT: </span><span style="font-size:11pt"><b> ${data.sodaidien} </b></span> <br />
                             </th>
                         </tr>
                     </thead>
@@ -202,34 +205,34 @@ const html = `
                             <td>Nợ trước</td>
                             <td></td>
                             <td></td>
-                            <td>NOTRUOC</td>
+                            <td>${data.notruoc}</td>
                         </tr>
                         <tr>
                             <td>Phát sinh</td>
                             <td></td>
                             <td></td>
-                            <td>PHATSINH</td>
+                            <td>${data.tien_ct}</td>
                         </tr>
                         <tr>
                             <th colspan="3" class="total text">Tổng tiền</th>
-                            <th class="total price">${data.tong_tien}</th>
+                            <th class="total price">${data.tien_ct}</th>
                         </tr>
                         <tr>
                             <td>Các khoản giảm trừ</td>
                             <td></td>
                             <td></td>
-                            <td>GIAMTRU</td>
+                            <td>${data.giamtru}</td>
                         </tr>
                         <tr>
                             <th colspan="3">Số tiền phải thu</th>
-                            <th class="total price">TIENPHAITHU</th>
+                            <th class="total price">${data.tien_cl}</th>
                         </tr>
                     </tbody>
                 </table>
 
                 <section>
                     <p>
-                        Bằng chử :<i> <span>TIENBANGCHU </i></span>
+                        Bằng chử :<i> <span>${data.bang_chu2}</i></span>
                     </p>
                     <br />
                 </section>
@@ -251,43 +254,43 @@ const html = `
                             <td>Cố định</td>
                             <td></td>
                             <td></td>
-                            <td>TIEN_CD</td>
+                            <td>${data.ten_tcd}</td>
                         </tr>
                         <tr>
                             <td>Gphone</td>
                             <td></td>
                             <td></td>
-                            <td>TIEN_GP</td>
+                            <td>${data.ten_tgp}</td>
                         </tr>
                         <tr>
                             <td>Di động</td>
                             <td></td>
                             <td></td>
-                            <td>TIEN_DD</td>
+                            <td>${data.ten_tvp}</td>
                         </tr>
                         <tr>
                             <td>Fiber</td>
                             <td></td>
                             <td></td>
-                            <td>TIEN_FB</td>
+                            <td>${data.ten_tfb}</td>
                         </tr>
                         <tr>
                             <td>MyTV</td>
                             <td></td>
                             <td></td>
-                            <td>TIEN_MYTV</td>
+                            <td>${data.ten_tmt}</td>
                         </tr>
                         <tr>
                             <td>CNTT</td>
                             <td></td>
                             <td></td>
-                            <td>TIEN_CNTT</td>
+                            <td>${data.ten_ttk}</td>
                         </tr>
                         <tr>
                             <td>Gói tích hợp</td>
                             <td></td>
                             <td></td>
-                            <td>TEN_TICHHOP</td>
+                            <td>${data.ten_goi}</td>
                         </tr>
 
                     </tbody>
@@ -295,12 +298,12 @@ const html = `
                 <br />
                 <section>
                     <p style="text-align:center">
-                        <span style="font-size:11pt">GHI_CHU</span><br />
-                        <span style="font-size:11pt">Số liên hệ quí khách hàng là : <b>SOLIENHE</b></span><br />
+                        <span style="font-size:11pt">${data.ghi_chu}</span><br />
+                        <span style="font-size:11pt">Số liên hệ quí khách hàng là : <b>${data.sdt_lh}</b></span><br />
                     </p>
                     <br />
                     <header>
-                        <img src="https://vnptdongthap.vn/quantri/Qrcode?id=000201010211261900069500020105415235204481453037045802VN5914VNPT%20VINAPHONE6005HANOI61051000062800314TTKD%20DONG%20THAP060700000070705327720823Thanh%20toan%20hoa%20don%20VNPT50020251054.0.06304396C" alt="QR Code" id="qrcodett" class="media" /><br />
+                        <img src="https://vnptdongthap.vn/quantri/Qrcode?id=${data.qrcode_tt}" alt="QR Code" id="qrcodett" class="media" /><br />
                         QRcode thanh toán
                     </header>
 
@@ -316,7 +319,7 @@ const html = `
                 <br />
                 <p style="text-align:center">
                     NHÂN VIÊN THU CƯỚC<br />
-                    <b>TENNHANVIEN <b> SDT_NV
+                    <b>${data.ten_tc} <b> ${data.chitiet_lh}
                 </p>
                 <br/>                                                 
     </form>
@@ -339,10 +342,10 @@ const html = `
           <View style={{flexDirection:'row'}} >
              <View style={{flex:1,flexDirection:'row'}} >
                 <Text style={{fontSize: 13,color:'#566573'}}>Mã TT</Text>
-                <Text style={{fontSize: 15,marginLeft:5,fontWeight:700,color:'#2196F3'}}>{data.ma_tt}</Text>          
+                <Text style={{fontSize: 15,marginLeft:5,fontWeight:700,color:'#2196F3'}}>{data.matt}</Text>          
              </View>
              <View>             
-                  <Text style={{fontSize: 15,color:'#EB984E',marginLeft:50,fontWeight:500}}>{data.tong_tien} đ</Text>          
+                  <Text style={{fontSize: 15,color:'#EB984E',marginLeft:50,fontWeight:500}}>{data.tien_cl} đ</Text>          
              </View>
           </View>
 
