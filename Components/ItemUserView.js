@@ -12,13 +12,6 @@ import Carousel from 'react-native-anchor-carousel';
 
 const { width } = Dimensions.get('window');
 
-const data = [
-  { backgroundColor: 'red' },
-  { backgroundColor: 'green' },
-  { backgroundColor: 'blue' },
-  { backgroundColor: 'yellow' }
-];
-
 
 const images =[
     {

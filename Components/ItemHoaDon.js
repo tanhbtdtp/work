@@ -356,7 +356,7 @@ const html = `
                 <Text style={{fontSize: 15,marginLeft:5,fontWeight:700,color:'#2196F3'}}>{data.matt}</Text>          
              </View>
              <View>             
-                  <Text style={{fontSize: 17,color:'#EB984E',marginLeft:50,fontWeight:500}}>{data.tien_cl} đ</Text>          
+                  <Text style={{fontSize: 17,color:'#F86F03',marginLeft:50,fontWeight:700,opacity:1}}>{data.tien_cl} đ</Text>          
                   
              </View>
           </View>
@@ -391,4 +391,4 @@ const html = `
         </View>    
     </View>
     )
-}
+};

@@ -52,8 +52,7 @@ const renderLoad =()=>{
     </View>
 )};
 
-
-
+// định dạng cố định item layout
 const ITEM_HEIGHT = 200;
 const getItemLayout = useCallback((data,index)=>({
       length :ITEM_HEIGHT,
@@ -68,7 +67,7 @@ const getItemLayout = useCallback((data,index)=>({
      <StatusBar backgroundColor="#2196F3"/>   
      
         <View style={{ flex:1, flexDirection:"row", backgroundColor:'#2196F3',justifyContent:'center',alignItems:'center',marginTop:20}}>
-                <TextInput style={{backgroundColor:'#ffff',width:'95%',height:50,fontSize:15,padding:10,
+                <TextInput style={{backgroundColor:'#ffff',width:'90%',height:50,fontSize:15,paddingHorizontal:25,opacity:0.9,
                         borderRadius:10}} placeholder="Tìm kiếm..."></TextInput>
                 <TouchableOpacity style={{marginLeft:5,position:'absolute',right:30}}>
                      <Ionicons name='search' size={30} color={'#566573'} />

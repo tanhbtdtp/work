@@ -42,7 +42,7 @@ return(
            <Text style={{color:'#F4F6F7',fontSize:20,marginTop:20}} >VNPT ĐỒNG THÁP</Text>         
       </View>
       <View style={styles.footer}></View>
-      <View style={styles.panel}>
+         <View style={styles.panel}>
       <Image
         style={styles.logo}
         source={{
