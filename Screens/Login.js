@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, TextInput, TouchableOpacity,StyleSheet, Text, View,Image, Alert} from "react-native";
+import { SafeAreaView, TextInput, TouchableOpacity,StyleSheet, Text, View,Image, Alert,ActivityIndicator} from "react-native";
 import Checkbox from "expo-checkbox";
 import { useNavigation } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -8,6 +8,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 import API from "../Services/ThuVien";
+import Loading from './../Components/Loading';
+import { CellContainer } from "@shopify/flash-list";
+
 
 const Header = () => {
   return (
@@ -20,7 +23,7 @@ const Header = () => {
 const Body = () => {
   const navigation = useNavigation();
   const [username,setUsername] =useState("");
-  const [password,setPassword] =useState("");
+  const [password,setPassword] =useState("");  
   const [token,setToken] =useState("");
   const [isLoading,setIsLoading] =useState(false);
   const [isChecked, setChecked] = useState(false);
@@ -69,6 +72,16 @@ const Body = () => {
       }
   } 
 
+  
+// loading
+const Loading = ()=>{
+    return(
+        <View style={{flexDirection:"row",alignItems:"center",opacity:0.8}}>
+               <ActivityIndicator size={40}  color={'#2196F3'}/>
+               <Text style={{ fontSize:15,marginLeft:5,fontWeight:400}}>Đăng nhập</Text>
+        </View>
+    )
+}
 
   return (
     <View style={styles.bd}>      
@@ -114,13 +127,17 @@ const Body = () => {
                 </TouchableOpacity>
             </View>
 
-            <View>            
-                <TouchableOpacity        
-                  onPress={onClickLogin}>
-                  <View style={{backgroundColor:'#2196F3', height:60,marginTop:40,justifyContent:"center",borderRadius:10,opacity:0.8}}>
-                    <Text style={{ color: "white",textAlign:"center",fontSize:18}}>Đăng nhập</Text>
-                  </View>
-                </TouchableOpacity>                
+            <View style={{justifyContent:"center",alignItems:'center'}} >            
+                {isLoading?<Loading/> :
+                
+                    <TouchableOpacity        
+                       style={{width:'100%'}}
+                      onPress={onClickLogin}>
+                      <View style={{backgroundColor:'#2196F3', height:60,marginTop:40,justifyContent:"center",borderRadius:10,opacity:0.8}}>
+                        <Text style={{ color: "white",textAlign:"center",fontSize:18}}>Đăng nhập</Text>
+                      </View>
+                    </TouchableOpacity>    
+                }            
             </View>
         </View> 
 
@@ -156,14 +173,17 @@ const Footer = () => {
   );
 };
 
-export default function Login() {  
+// man hinh chinh
+export default  Login = () => {    
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="auto" />
-      <Header />
-      <Body/>
-      <Footer />     
+      <StatusBar style="auto" />        
+
+              <Header />
+              <Body/>
+              <Footer />        
+
     </SafeAreaView>
   );
 }

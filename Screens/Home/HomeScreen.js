@@ -59,6 +59,8 @@ const Header = () => {
           </View>
     )}
 
+
+
 const Body = () => {
 
     return(
@@ -90,6 +92,50 @@ const Body = () => {
               </View>              
 
             </View>
+
+            <View style={{paddingVertical:10}} >
+              <Text style={{fontWeight:500}}>Đơn vị</Text>
+            </View>
+
+             
+            <View style={{flexDirection:"row",alignItems:'center',paddingHorizontal:5,backgroundColor:'#fff',height:90}} >
+                <View>
+                    <Image
+                        style={{borderRadius:5,height:60,width:60,marginTop:5,borderRadius:10}}
+                        source={{
+                            uri: 'https://vnptdongthap.vn/tainguyen/images/anhdoan.jpg',              
+                        }}
+                        resizeMode="contain"
+                      />
+                </View>           
+
+                <View style={{paddingHorizontal:15}} >                  
+                  <Text style={{fontSize:10,opacity:0.6}}>Phòng bán hàng</Text>
+                  <Text style={{fontWeight:600}}>Châu Thành</Text>                  
+                </View>  
+            </View>
+
+            <View style={{flexDirection:"row",alignItems:'center',paddingHorizontal:5,backgroundColor:'#fff',height:90}} >
+                <View>
+                    <Image
+                        style={{borderRadius:5,height:60,width:60,marginTop:5,borderRadius:10}}
+                        source={{
+                            uri: 'https://vnptdongthap.vn/tainguyen/images/anhchinh.jpg',              
+                        }}
+                        resizeMode="contain"
+                      />
+                </View>           
+
+                <View style={{paddingHorizontal:15}} >                  
+                  <Text style={{fontSize:10,opacity:0.6}}>Phòng bán hàng</Text>
+                  <Text style={{fontWeight:600}}>Sa đéc</Text>                  
+                </View>  
+            </View>
+
+
+
+            
+
       </View>      
     )};    
 
