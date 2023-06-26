@@ -1,15 +1,14 @@
 import React, { useEffect,useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TouchableOpacity,Image, TextInput } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity,Image, TextInput,ScrollView, FlatList} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 import Ionicons from "react-native-vector-icons/Ionicons";
+
 
 import API from "../../Services/ThuVien";
 import ItemUserView from "../../Components/ItemUserView";
-
 
 
 export default HomeScreen = () => {
@@ -52,100 +51,144 @@ const Header = () => {
 
   )}
 
-  const Userview = () =>{
+const Userview = () =>{
     return(
           <View style={{flex:1,padding:5}} >
               <ItemUserView/>
           </View>
     )}
-
+   
 
 
 const Body = () => {
 
-    return(
-      <View style={{flex:4,backgroundColor:'#F8FAFC',paddingHorizontal:5}}>          
-           <View>
-          <Image
-              style={{borderRadius:5,height:200, borderWidth:1,borderColor:'#fff',marginTop:5}}
-              source={{
-                  uri: API.Logo_TTKD,              
-              }}
-              resizeMode="contain"
-            />
-            </View>            
-            <View style={styles.forminfo}>
-              
-              <View style={styles.info}>                  
-                  <Text style={styles.txtinfo} >30.2</Text>
-                  <Text style={styles.txtinfotext}>Fiber</Text>
-              </View>
-               <View style={{height:80,borderWidth:0.7,borderColor:'gray',marginTop:8,opacity:0.6}} />
-              <View style={styles.info}>              
-                  <Text style={styles.txtinfo}>20.5</Text>  
-                  <Text style={styles.txtinfotext}>MyTV</Text>                  
-              </View>
-              <View style={{height:80,borderWidth:0.7,borderColor:'gray',marginTop:8,opacity:0.6}} />
-              <View style={styles.info}>              
-                <Text style={styles.txtinfo}>115</Text>
-                <Text style={styles.txtinfotext}>Di động</Text>              
-              </View>              
+  const datapbh = [
+    {
+      mapbh : 'cth',
+      tenpbh :'Châu Thành',
+      avatar : 'https://vnptdongthap.vn/tainguyen/images/anhdoan.jpg'
+    },
+    {
+      mapbh : 'sdc',
+      tenpbh :'Sa đéc',
+      avatar : 'https://vnptdongthap.vn/tainguyen/images/anhchinh.jpg'
+    },
+    {
+      mapbh : 'lvo',
+      tenpbh :'Lấp vò',
+      avatar : 'https://vnptdongthap.vn/tainguyen/images/anhan.jpg'
+    },
+    {
+      mapbh : 'lvg',
+      tenpbh :'Lai vung',
+      avatar : 'https://vnptdongthap.vn/tainguyen/images/anhthong.jpg'
+    },
 
-            </View>
+    {
+      mapbh : 'tmi',
+      tenpbh :'Tháp mười',
+      avatar : 'https://vnptdongthap.vn/tainguyen/images/anhphuong.jpg'
+    },
+  
+    {
+      mapbh : 'thg',
+      tenpbh :'Tân hồng',
+      avatar : 'https://vnptdongthap.vn/tainguyen/images/anhhiep.jpg'
+    },
+  
 
-            <View style={{paddingVertical:10}} >
-              <Text style={{fontWeight:500}}>Đơn vị</Text>
-            </View>
-
-             
-            <View style={{flexDirection:"row",alignItems:'center',paddingHorizontal:5,backgroundColor:'#fff',height:90}} >
-                <View>
-                    <Image
-                        style={{borderRadius:5,height:60,width:60,marginTop:5,borderRadius:10}}
-                        source={{
-                            uri: 'https://vnptdongthap.vn/tainguyen/images/anhdoan.jpg',              
-                        }}
-                        resizeMode="contain"
-                      />
-                </View>           
-
-                <View style={{paddingHorizontal:15}} >                  
-                  <Text style={{fontSize:10,opacity:0.6}}>Phòng bán hàng</Text>
-                  <Text style={{fontWeight:600}}>Châu Thành</Text>                  
-                </View>  
-            </View>
-
-            <View style={{flexDirection:"row",alignItems:'center',paddingHorizontal:5,backgroundColor:'#fff',height:90}} >
-                <View>
-                    <Image
-                        style={{borderRadius:5,height:60,width:60,marginTop:5,borderRadius:10}}
-                        source={{
-                            uri: 'https://vnptdongthap.vn/tainguyen/images/anhchinh.jpg',              
-                        }}
-                        resizeMode="contain"
-                      />
-                </View>           
-
-                <View style={{paddingHorizontal:15}} >                  
-                  <Text style={{fontSize:10,opacity:0.6}}>Phòng bán hàng</Text>
-                  <Text style={{fontWeight:600}}>Sa đéc</Text>                  
-                </View>  
-            </View>
+    ]
 
 
 
-            
+// danh sách phòng bán hàng
+const ItemPBH = ({data}) =>{    
+   return(
 
-      </View>      
+    <TouchableOpacity>
+        <View style={{flexDirection:"row",alignItems:'center',paddingHorizontal:5,backgroundColor:'#fff',height:90}} >              
+        <View>
+            <Image
+                style={{borderRadius:5,height:60,width:60,marginTop:5,borderRadius:10}}
+                source={{
+                    uri: data.avatar,              
+                }}
+                resizeMode="contain"
+              />
+        </View>           
+      
+        <View style={{flex:1, paddingHorizontal:15,flexDirection:'row',justifyContent:'space-between'}} > 
+          <View>
+              <Text style={{fontSize:10,opacity:0.6}}>Phòng bán hàng</Text>
+              <Text style={{fontWeight:600}}>{data.tenpbh}</Text>                  
+          </View>
+          <View>
+              <Ionicons name="caret-forward-sharp" size={20} color={'gray'}/>
+          </View>
+        </View>      
+      </View>
+      <View style={{width:'90%',height:3,marginLeft:10}}/>
+
+  </TouchableOpacity>
+  )};
+
+const headerList = ()=>{
+
+return(
+
+  <>
+
+  <View>
+  <Image
+      style={{borderRadius:5,height:200, borderWidth:1,borderColor:'#fff',marginTop:5}}
+      source={{
+          uri: API.Logo_TTKD,              
+      }}
+      resizeMode="contain"
+    />
+</View>        
+
+    <View style={{paddingVertical:10}} >
+       <View style={styles.forminfo}>
+
+<View style={styles.info}>                  
+    <Text style={styles.txtinfo} >30.2</Text>
+    <Text style={styles.txtinfotext}>Fiber</Text>
+</View>
+ <View style={{height:80,borderWidth:0.7,borderColor:'gray',marginTop:8,opacity:0.6}} />
+<View style={styles.info}>              
+    <Text style={styles.txtinfo}>20.5</Text>  
+    <Text style={styles.txtinfotext}>MyTV</Text>                  
+</View>
+<View style={{height:80,borderWidth:0.7,borderColor:'gray',marginTop:8,opacity:0.6}} />
+<View style={styles.info}>              
+  <Text style={styles.txtinfo}>115</Text>
+  <Text style={styles.txtinfotext}>Di động</Text>              
+</View>            
+</View>
+    </View>                                                   
+    </>          
+)}
+    return(     
+
+      <View style={{flex:4,backgroundColor:'#F8FAFC',paddingHorizontal:5}}>                               
+            <FlatList
+              ListHeaderComponent={headerList}  
+              data={datapbh}
+              renderItem={({item}) => <ItemPBH data={item}/>}              
+              keyExtractor={item => item.mapbh}
+            />                       
+      </View>     
+    
     )};    
 
 
-
-  return (
+return (
+    
     <SafeAreaView style={styles.container}>
-       <Header/>
+       <Header/>      
        <Userview/>
-       <Body/>
+       <Body/>      
     </SafeAreaView>
   );
 };
