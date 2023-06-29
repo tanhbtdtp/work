@@ -1,11 +1,11 @@
 import React, { useEffect,useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TouchableOpacity,Image, TextInput,ScrollView, FlatList} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity,Image, TextInput, FlatList, Alert} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
-
+import axios from "axios";
 
 import API from "../../Services/ThuVien";
 import ItemUserView from "../../Components/ItemUserView";
@@ -14,13 +14,39 @@ import ItemUserView from "../../Components/ItemUserView";
 export default HomeScreen = () => {
     const [avatar,setAvatar] =useState();    
     const navigation = useNavigation();
+    const [listpbh,setListpbh] = useState([]);
+    const [isLoading,setIsLoading] =useState(false);
 
-    // lấy thông tin người dùng 
-    useEffect(()=>{        
+    // API
+  const urlPBH =API.API_Donvi;  
+    
+  // hàm xuất danh sách thu cước
+  useEffect(() => {
+    const fetchData = async () => {      
+      try {
+        setIsLoading(true);        
+        const res = await axios.get(urlPBH);            
+        setListpbh(res.data);
+        //console.log(ListData);
+        //setListData(res.data); 
+      } catch (error) {
+        // Handle errors
+        console.log(error);
+      }finally {
+        setIsLoading(false);
+      }      
+  }
+  // call the function
+   fetchData();    
+  },[])
+
+
+  // lấy thông tin người dùng 
+  useEffect(()=>{        
           AsyncStorage.getItem('imagenvID').then(value=>{
           setAvatar(value);              
         })
-    },[]);    
+  },[]);    
 
 
 const Header = () => {
@@ -56,56 +82,22 @@ const Userview = () =>{
           <View style={{flex:1,padding:5}} >
               <ItemUserView/>
           </View>
-    )}
+    )};
    
 
-
 const Body = () => {
-
-  const datapbh = [
-    {
-      mapbh : 'cth',
-      tenpbh :'Châu Thành',
-      avatar : 'https://vnptdongthap.vn/tainguyen/images/anhdoan.jpg'
-    },
-    {
-      mapbh : 'sdc',
-      tenpbh :'Sa đéc',
-      avatar : 'https://vnptdongthap.vn/tainguyen/images/anhchinh.jpg'
-    },
-    {
-      mapbh : 'lvo',
-      tenpbh :'Lấp vò',
-      avatar : 'https://vnptdongthap.vn/tainguyen/images/anhan.jpg'
-    },
-    {
-      mapbh : 'lvg',
-      tenpbh :'Lai vung',
-      avatar : 'https://vnptdongthap.vn/tainguyen/images/anhthong.jpg'
-    },
-
-    {
-      mapbh : 'tmi',
-      tenpbh :'Tháp mười',
-      avatar : 'https://vnptdongthap.vn/tainguyen/images/anhphuong.jpg'
-    },
   
-    {
-      mapbh : 'thg',
-      tenpbh :'Tân hồng',
-      avatar : 'https://vnptdongthap.vn/tainguyen/images/anhhiep.jpg'
-    },
-  
-
-    ]
-
-
-
 // danh sách phòng bán hàng
 const ItemPBH = ({data}) =>{    
    return(
 
-    <TouchableOpacity>
+    <TouchableOpacity
+    onPress={()=>{
+
+     console.log(data.id);
+    }}
+     >
+
         <View style={{flexDirection:"row",alignItems:'center',paddingHorizontal:5,backgroundColor:'#fff',height:90}} >              
         <View>
             <Image
@@ -120,7 +112,7 @@ const ItemPBH = ({data}) =>{
         <View style={{flex:1, paddingHorizontal:15,flexDirection:'row',justifyContent:'space-between'}} > 
           <View>
               <Text style={{fontSize:10,opacity:0.6}}>Phòng bán hàng</Text>
-              <Text style={{fontWeight:600}}>{data.tenpbh}</Text>                  
+              <Text style={{fontWeight:600}}>{data.tendv}</Text>                  
           </View>
           <View>
               <Ionicons name="caret-forward-sharp" size={20} color={'gray'}/>
@@ -137,46 +129,81 @@ const headerList = ()=>{
 return(
 
   <>
+       <View>
+        <Image
+            style={{borderRadius:5,height:200, borderWidth:1,borderColor:'#fff',marginTop:5}}
+            source={{
+                uri: API.Logo_TTKD,              
+            }}
+            resizeMode="contain"
+          />
+      </View>        
 
-  <View>
-  <Image
-      style={{borderRadius:5,height:200, borderWidth:1,borderColor:'#fff',marginTop:5}}
-      source={{
-          uri: API.Logo_TTKD,              
-      }}
-      resizeMode="contain"
-    />
-</View>        
-
-    <View style={{paddingVertical:10}} >
+      <View style={{paddingVertical:10}} >
        <View style={styles.forminfo}>
 
-<View style={styles.info}>                  
-    <Text style={styles.txtinfo} >30.2</Text>
-    <Text style={styles.txtinfotext}>Fiber</Text>
-</View>
- <View style={{height:80,borderWidth:0.7,borderColor:'gray',marginTop:8,opacity:0.6}} />
-<View style={styles.info}>              
-    <Text style={styles.txtinfo}>20.5</Text>  
-    <Text style={styles.txtinfotext}>MyTV</Text>                  
-</View>
-<View style={{height:80,borderWidth:0.7,borderColor:'gray',marginTop:8,opacity:0.6}} />
-<View style={styles.info}>              
-  <Text style={styles.txtinfo}>115</Text>
-  <Text style={styles.txtinfotext}>Di động</Text>              
-</View>            
-</View>
-    </View>                                                   
+          <View style={styles.info}>                  
+              <Text style={styles.txtinfo} >30.2</Text>
+              <Text style={styles.txtinfotext}>Fiber</Text>
+          </View>
+      <View style={{height:80,borderWidth:0.7,borderColor:'gray',marginTop:8,opacity:0.6}} />
+          <View style={styles.info}>              
+              <Text style={styles.txtinfo}>20.5</Text>  
+              <Text style={styles.txtinfotext}>MyTV</Text>                  
+          </View>
+      <View style={{height:80,borderWidth:0.7,borderColor:'gray',marginTop:8,opacity:0.6}} />
+          <View style={styles.info}>              
+            <Text style={styles.txtinfo}>115</Text>
+            <Text style={styles.txtinfotext}>Di động</Text>              
+          </View>            
+      </View>
+      
+       <View style={{paddingVertical:10,paddingHorizontal:20,borderColor:'#fff',borderWidth:1,flexDirection:'row',justifyContent:'space-between'}}>
+        <Text style={{color:'gray'}}>Danh mục</Text>
+        <Text style={{color:'gray'}}>Kế hoạch</Text>
+       </View>     
+
+       <View style={{paddingVertical:10,paddingHorizontal:20,borderColor:'#fff',borderWidth:1,flexDirection:'row',justifyContent:'space-between'}}>
+        <View>
+          <Text>Tỉ lệ nợ</Text>
+            <Text style={{fontSize:10,color:'gray',marginTop:10}}>Doanh thu</Text>          
+            <Text style={{fontSize:10,color:'gray',marginTop:5}}>Hoá đơn</Text>          
+          </View>
+          <Text style={{color:'black', fontSize:20}} >90%</Text>
+       </View>     
+
+       <View style={{paddingVertical:10,paddingHorizontal:20,borderColor:'#fff',borderWidth:1,flexDirection:'row',justifyContent:'space-between'}}>
+        <View>
+          <Text>Tài khoản chính</Text>
+            <Text style={{fontSize:10,color:'gray',marginTop:10}}>Doanh thu</Text>          
+            <Text style={{fontSize:10,color:'gray',marginTop:5}}>Thuê bao</Text>    
+          </View>
+          <Text style={{color:'orange',fontSize:20}}>72%</Text>
+       </View>
+
+
+       <View style={{paddingVertical:10,paddingHorizontal:20,borderColor:'#fff',borderWidth:1,flexDirection:'row',justifyContent:'space-between'}}>
+        <View>
+          <Text>Số hoá</Text>
+            <Text style={{fontSize:10,color:'gray',marginTop:10}}>Doanh thu</Text>          
+            <Text style={{fontSize:10,color:'gray',marginTop:5}}>Thuê bao</Text>    
+          </View>
+          <Text style={{color:'red',fontSize:20}}>50%</Text>
+       </View>
+
+
+          </View>                                                   
     </>          
 )}
-    return(     
+
+ return(     
 
       <View style={{flex:4,backgroundColor:'#F8FAFC',paddingHorizontal:5}}>                               
             <FlatList
               ListHeaderComponent={headerList}  
-              data={datapbh}
+              data={listpbh}
               renderItem={({item}) => <ItemPBH data={item}/>}              
-              keyExtractor={item => item.mapbh}
+              keyExtractor={item => item.id}
             />                       
       </View>     
     

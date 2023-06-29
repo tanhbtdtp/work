@@ -6,28 +6,32 @@ import axios from "axios";
 import API from "../../Services/ThuVien";
 import { FlashList } from "@shopify/flash-list";
 import ItemHoaDon from "../../Components/ItemHoaDon";
-
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default BillScreens = () => {        
   const [ListData,setListData] = useState([]);
   const [isLoading,setIsLoading] = useState(false);  
   const [currentPage,setCurrentPage] =useState(1);
+  const [manv,setManv] =useState('');
     
   // API
-  const urlThuCuoc =API.List_ThuCuoc + "?ma_nv=&sotrang=" + `${currentPage}` + "&somautin=";
-  //console.log(urlThuCuoc);
-    
+  const urlThuCuoc =API.List_ThuCuoc + "?ma_nv=" + `${manv}` + "&sotrang=" + `${currentPage}` + "&somautin=";
+  
+  // lấy thông tin người dùng 
+  useEffect(()=>{        
+    AsyncStorage.getItem('manvID').then(value=>{
+    setManv(value);              
+  })
+},[]);    
+
   // hàm xuất danh sách thu cước
   useEffect(() => {
     const fetchData = async () => {      
       try {
         setIsLoading(true);        
         const res = await axios.get(urlThuCuoc);            
-        setListData([...ListData,...res.data]);        
-        //console.log(ListData);
-        //setListData(res.data); 
+        setListData([...ListData,...res.data]);                 
       } catch (error) {
         // Handle errors
         console.log(error);
@@ -42,7 +46,8 @@ export default BillScreens = () => {
   // load thêm dữ liệu
 const  loadMoreItems = () =>{
     setCurrentPage(currentPage+1);
-    console.log('page '+ currentPage);
+    //console.log('page '+ currentPage);
+    console.log(urlThuCuoc);
 }
 
 const renderLoad =()=>{    
@@ -77,7 +82,10 @@ const getItemLayout = useCallback((data,index)=>({
         <View style={{padding:10,marginLeft:10,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}} >
               <Text style={{fontWeight:600}}>Khách hàng</Text>      
               <View style={{flexDirection:'row',paddingHorizontal:10}}>
-                     <TouchableOpacity style={{backgroundColor:'#2196F3',borderRadius:5,width:80,alignItems:'center'}} >
+                      <TouchableOpacity style={{backgroundColor:'#2196F3',borderRadius:5,width:80,alignItems:'center'}} >
+                        <Text style={{fontWeight:400,color:'#ffff',padding:5}}>Tất cả</Text>      
+                     </TouchableOpacity>
+                     <TouchableOpacity style={{backgroundColor:'#2196F3',marginLeft:10, borderRadius:5,width:80,alignItems:'center'}} >
                         <Text style={{fontWeight:400,color:'#ffff',padding:5}}>Đã thu</Text>      
                      </TouchableOpacity>
                      <TouchableOpacity style={{backgroundColor:'#2196F3',marginLeft:10,borderRadius:5,width:80,alignItems:'center'}}>
@@ -85,7 +93,9 @@ const getItemLayout = useCallback((data,index)=>({
                     </TouchableOpacity>
               </View>
         </View>
-        <View style={{ flex:6,backgroundColor:'#fff',width:'95%',alignSelf:"center",marginTop:10}}>  
+        <View style={{ flex:6,backgroundColor:'#fff',width:'95%',alignSelf:"center",marginTop:10}}> 
+
+        {ListData.length>0?
         <FlashList
                 //style={styles.list}
                 data={ListData}
@@ -94,9 +104,14 @@ const getItemLayout = useCallback((data,index)=>({
                 getItemLayout={getItemLayout}
                 onEndReached={loadMoreItems}    
                 estimatedItemSize={100}
-                onEndReachedThreshold={0.3}             
+                onEndReachedThreshold={0.3}
         />         
+        : 
+          <>
+              <Text style={{paddingHorizontal:10,color:'red',fontWeight:500}}>Không có dữ liệu.</Text>          
+          </> }
         </View>          
+
     </SafeAreaView>
   );
 }
