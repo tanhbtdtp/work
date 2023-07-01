@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect,useState,useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TouchableOpacity,Image, TextInput, FlatList, Alert} from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -6,6 +6,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import axios from "axios";
+
+import UserContext from "../../Context/UserContext";
 
 import API from "../../Services/ThuVien";
 import ItemUserView from "../../Components/ItemUserView";
@@ -16,6 +18,7 @@ export default HomeScreen = () => {
     const navigation = useNavigation();
     const [listpbh,setListpbh] = useState([]);
     const [isLoading,setIsLoading] =useState(false);
+   
 
     // API
   const urlPBH =API.API_Donvi;  
@@ -40,16 +43,11 @@ export default HomeScreen = () => {
    fetchData();    
   },[])
 
-
-  // lấy thông tin người dùng 
-  useEffect(()=>{        
-          AsyncStorage.getItem('imagenvID').then(value=>{
-          setAvatar(value);              
-        })
-  },[]);    
-
+  
 
 const Header = () => {
+  const {userinfo} = useContext(UserContext);    
+
   return(
 <View style={{flex:1.5,backgroundColor:'#2196F3',justifyContent:'center'}}>
     <View style={{justifyContent:'space-between',alignItems:'center', flexDirection:'row',paddingHorizontal:15,marginTop:20}}>
@@ -61,7 +59,7 @@ const Header = () => {
             <Image
               style={{height:60,width:60,borderRadius:80,borderWidth:1.5,borderColor:'#fff'}}
               source={{
-              uri: avatar,
+              uri: userinfo.image,
             }}/>
         </View>
     </View>

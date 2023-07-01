@@ -3,13 +3,15 @@ import { SafeAreaView, TextInput, TouchableOpacity,StyleSheet, Text, View,Image,
 import Checkbox from "expo-checkbox";
 import { useNavigation } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 import API from "../Services/ThuVien";
 import Loading from './../Components/Loading';
-import { CellContainer } from "@shopify/flash-list";
+
+
+import UserContext from "../Context/UserContext";
 
 
 const Header = () => {
@@ -27,6 +29,9 @@ const Body = () => {
   const [token,setToken] =useState("");
   const [isLoading,setIsLoading] =useState(false);
   const [isChecked, setChecked] = useState(false);
+
+  const {setUserinfo} = useContext(UserContext);
+  //console.log(userinfo)
 
   const urlLogin =API.API_Login + `?taikhoan=${username}&matkhau=${password}&token=${token}`
 
@@ -57,6 +62,8 @@ const Body = () => {
               AsyncStorage.setItem('sdtnvID',res.data[0].sdt);            
               AsyncStorage.setItem('imagenvID',res.data[0].image);            
               AsyncStorage.setItem('tokenID',res.data[0].token);
+
+              setUserinfo(res.data[0]);
 
             //Chuyển màn hình sang HoneStack
             navigation.replace("HomeStack")             
@@ -176,6 +183,7 @@ const Footer = () => {
 // man hinh chinh
 export default  Login = () => {    
 
+  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />        

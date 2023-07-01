@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet} from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-
 
 import BillScreen from "./Home/BillScreen.js";
 import Personal from "./Home/Personal.js";
@@ -11,7 +10,9 @@ import HomeScreen from "./Home/HomeScreen.js";
 
 const Tab = createBottomTabNavigator();
 export default function HomeStack() {
+  
   return (
+   
     <Tab.Navigator
       screenOptions={({ route }) => ({       
         tabBarIcon: ({ focused, color, size }) => {

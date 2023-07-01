@@ -1,4 +1,4 @@
-import { React,useState,useEffect, useCallback } from "react";
+import { React,useState,useEffect, useCallback ,useContext} from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TouchableOpacity,SafeAreaView,TextInput,ActivityIndicator } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -9,14 +9,18 @@ import ItemHoaDon from "../../Components/ItemHoaDon";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
+import UserContext from "../../Context/UserContext";
+
 export default BillScreens = () => {        
   const [ListData,setListData] = useState([]);
   const [isLoading,setIsLoading] = useState(false);  
   const [currentPage,setCurrentPage] =useState(1);
   const [manv,setManv] =useState('');
     
+  const {userinfo} = useContext(UserContext);
+  
   // API
-  const urlThuCuoc =API.List_ThuCuoc + "?ma_nv=" + `${manv}` + "&sotrang=" + `${currentPage}` + "&somautin=";
+  const urlThuCuoc =API.List_ThuCuoc + "?ma_nv=" + `${userinfo.manv}` + "&sotrang=" + `${currentPage}` + "&somautin=";
   
   // lấy thông tin người dùng 
   useEffect(()=>{        
